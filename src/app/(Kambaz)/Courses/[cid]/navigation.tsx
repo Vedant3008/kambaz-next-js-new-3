@@ -1,24 +1,46 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function CourseNavigation() {
+  const pathname = usePathname();
+  
+  const links = [
+    { href: "/Courses/1234/Home", label: "Home", id: "wd-course-home-link" },
+    { href: "/Courses/1234/Modules", label: "Modules", id: "wd-course-modules-link" },
+    { href: "/Courses/1234/Piazza", label: "Piazza", id: "wd-course-piazza-link" },
+    { href: "/Courses/1234/Zoom", label: "Zoom", id: "wd-course-zoom-link" },
+    { href: "/Courses/1234/Assignments", label: "Assignments", id: "wd-course-assignments-link" },
+    { href: "/Courses/1234/Quizzes", label: "Quizzes", id: "wd-course-quizzes-link" },
+    { href: "/Courses/1234/Grades", label: "Grades", id: "wd-course-grades-link" },
+    { href: "/Courses/1234/People", label: "People", id: "wd-course-people-link" },
+  ];
+
+  const isActive = (linkHref: string) => {
+    // Check if it's an exact match OR if it's a sub-route
+    if (pathname === linkHref) return true;
+    
+    // For routes like Assignments, check if we're in a sub-page
+    if (linkHref.includes('/Assignments') && pathname.includes('/Assignments')) return true;
+    if (linkHref.includes('/Quizzes') && pathname.includes('/Quizzes')) return true;
+    
+    return false;
+  };
+
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <Link href="/Courses/1234/Home" id="wd-course-home-link"
-        className="list-group-item active border-0">Home</Link>
-      <Link href="/Courses/1234/Modules" id="wd-course-modules-link"
-        className="list-group-item text-danger border-0">Modules</Link>
-      <Link href="/Courses/1234/Piazza" id="wd-course-piazza-link"
-        className="list-group-item text-danger border-0">Piazza</Link>
-      <Link href="/Courses/1234/Zoom" id="wd-course-zoom-link"
-        className="list-group-item text-danger border-0">Zoom</Link>
-      <Link href="/Courses/1234/Assignments" id="wd-course-assignments-link"
-        className="list-group-item text-danger border-0">Assignments</Link>
-      <Link href="/Courses/1234/Quizzes" id="wd-course-quizzes-link"
-        className="list-group-item text-danger border-0">Quizzes</Link>
-      <Link href="/Courses/1234/Grades" id="wd-course-grades-link"
-        className="list-group-item text-danger border-0">Grades</Link>
-      <Link href="/Courses/1234/People" id="wd-course-people-link"
-        className="list-group-item text-danger border-0">People</Link>
+      {links.map((link) => (
+        <Link
+          key={link.id}
+          href={link.href}
+          id={link.id}
+          className={`list-group-item border-0 ${
+            isActive(link.href) ? "active" : "text-danger"
+          }`}
+        >
+          {link.label}
+        </Link>
+      ))}
     </div>
   );
 }

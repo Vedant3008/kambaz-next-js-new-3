@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function KambazNavigation() {
   return (
     <ListGroup className="rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2" 
-               style={{ width: 120 }}
+               style={{ width: 100 }}
                id="wd-kambaz-navigation">
       <ListGroupItem className="bg-black border-0 text-center" as="a"
                      target="_blank" href="https://www.northeastern.edu/" id="wd-neu-link">

@@ -6,7 +6,7 @@ export default function Dashboard() {
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
-      <h2 id="wd-dashboard-published">Published Courses (12)</h2>
+      <h2 id="wd-dashboard-published">Published Courses (7)</h2>
       <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={2} lg={3} xl={4} className="g-4">
@@ -47,7 +47,7 @@ export default function Dashboard() {
           <Col>
             <Card className="h-100">
               <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <CardImg variant="top" src="/images/reactjs.jpg" height={160} />
+                <CardImg variant="top" src="/images/reactjs.png" height={160} />
                 <CardBody>
                   <CardTitle className="wd-dashboard-course-title">
                     CS5500 Software Engineering
