@@ -3,7 +3,7 @@ import { Row, Col, Card, CardBody, CardTitle, CardText, CardImg } from "react-bo
 
 export default function Dashboard() {
   return (
-    <div id="wd-dashboard">
+    <div id="wd-dashboard" style={{ maxWidth: "1275px" }}>
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
       <h2 id="wd-dashboard-published">Published Courses (7)</h2>
