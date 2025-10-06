@@ -13,6 +13,7 @@ export default function Float() {
           Red
         </div>
         <img className="wd-float-right"
+          alt = "Starship"
           src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"/>
         <div className="wd-float-done"></div>
       </div>
