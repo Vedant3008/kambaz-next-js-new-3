@@ -1,133 +1,57 @@
 import Link from "next/link";
-import { Row, Col, Card, CardBody, CardTitle, CardText, CardImg } from "react-bootstrap";
+import { Row, Col, Card, CardImg, CardBody, CardTitle, CardText, Button } from "react-bootstrap";
+import * as db from "../Database";
 
 export default function Dashboard() {
+  const courses = db.courses;
+  const courseImages: { [key: string]: string } = {
+    "RS101": "/images/rocket-propulsion.jpg",      // Rocket Propulsion
+    "RS102": "/images/aerodynamics.jpg",           // Aerodynamics  
+    "RS103": "/images/spacecraftdesign.jpg",       // Spacecraft Design
+    "RS104": "/images/organicchemistry.jpg",       // Organic Chemistry
+    "RS105": "/images/inorganicchemistry.jpg",     // Inorganic Chemistry
+    "RS106": "/images/physicalchemistry.jpg",      // Physical Chemistry
+    "RS107": "/images/ancientlanguageandscience.jpg",       // Ancient Languages
+    "RS108": "/images/wizard.jpg"                  // Inter-species Diplomacy (or use any available image)
+  };
+  
   return (
-    <div id="wd-dashboard" style={{ maxWidth: "1275px" }}>
+    <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
       <hr />
-      <h2 id="wd-dashboard-published">Published Courses (7)</h2>
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
       <hr />
       <div id="wd-dashboard-courses">
-        <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <div style={{ height: "160px", background: "#2B579A" }}></div>
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5010 Program Design Paradigms
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5010.MERGED.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <div style={{ height: "160px", background: "#DC3545" }}></div>
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5610 18616 Web Development
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5610.18616.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <CardImg variant="top" src="/images/reactjs.png" height={160} />
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5500 Software Engineering
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5500.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <div style={{ height: "160px", background: "#28A745" }}></div>
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5800 Algorithms
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5800.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <div style={{ height: "160px", background: "#6F42C1" }}></div>
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5200 Database Management
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5200.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <div style={{ height: "160px", background: "#17A2B8" }}></div>
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5100 AI Foundations
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5100.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card className="h-100">
-              <Link href="/Courses/1234/Home" className="text-decoration-none text-dark">
-                <div style={{ height: "160px", background: "#FFC107" }}></div>
-                <CardBody>
-                  <CardTitle className="wd-dashboard-course-title">
-                    CS5700 Computer Networks
-                  </CardTitle>
-                  <CardText className="text-muted" style={{ fontSize: "13px" }}>
-                    CS5700.202610<br />
-                    202610_1 Fall 2025 Semester Full Term
-                  </CardText>
-                </CardBody>
-              </Link>
-            </Card>
-          </Col>
+        <Row xs={1} md={5} className="g-4">
+          {courses.map((course) => (
+            <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
+              <Card>
+                <Link 
+                  href={`/Courses/${course._id}/Home`}
+                  className="wd-dashboard-course-link text-decoration-none text-dark">
+                  <CardImg 
+                    src={courseImages[course._id] || "/images/reactjs.png"} 
+                    variant="top" 
+                    width="100%" 
+                    height={160}
+                    alt={course.name}
+                    style={{ objectFit: "cover" }}
+                  />
+                  <CardBody className="card-body">
+                    <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                      {course.name}
+                    </CardTitle>
+                    <CardText 
+                      className="wd-dashboard-course-description overflow-hidden" 
+                      style={{ height: "100px" }}>
+                      {course.description}
+                    </CardText>
+                    <Button variant="primary">Go</Button>
+                  </CardBody>
+                </Link>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </div>
     </div>

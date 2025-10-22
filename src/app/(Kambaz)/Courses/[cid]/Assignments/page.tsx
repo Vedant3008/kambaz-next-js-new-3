@@ -1,112 +1,70 @@
-import { FaSearch, FaPlus } from "react-icons/fa";
-import { BsGripVertical } from "react-icons/bs";
-import { IoEllipsisVertical } from "react-icons/io5";
-import { FaCheckCircle } from "react-icons/fa";
-import { BiSolidPencil } from "react-icons/bi";
-import { Button, InputGroup, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
+"use client";
+import { useParams } from "next/navigation";
 import Link from "next/link";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
+import { FaEllipsisVertical, FaPlus } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
+import { BsGripVertical } from "react-icons/bs";
+import * as db from "../../../Database";
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
+  const courseAssignments = assignments.filter((assignment: any) => assignment.course === cid);
+  
   return (
-    <div id="wd-assignments" style={{ maxWidth: "1125px" }}>
+    <div id="wd-assignments">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <InputGroup style={{ width: "300px" }}>
-          <span className="input-group-text bg-white">
-            <FaSearch />
-          </span>
-          <FormControl placeholder="Search for Assignment" className="border-start-0" />
-        </InputGroup>
+        <input 
+          id="wd-search-assignment"
+          className="form-control me-2" 
+          placeholder="Search..." 
+          style={{ width: "300px" }}
+        />
         <div>
-          <Button variant="secondary" className="me-2">
-            <FaPlus className="me-1" /> Group
-          </Button>
-          <Button variant="danger">
-            <FaPlus className="me-1" /> Assignment
-          </Button>
+          <button className="btn btn-secondary me-2">+ Group</button>
+          <button className="btn btn-danger">+ Assignment</button>
         </div>
       </div>
-
-      <ListGroup className="rounded-0">
-        <ListGroupItem className="p-0 mb-5 fs-5 border-gray">
+      
+      <ListGroup id="wd-assignment-list" className="rounded-0">
+        <ListGroupItem className="wd-assignment-list-item p-0 mb-5 fs-5 border-gray">
           <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
+            <div>
               <BsGripVertical className="me-2 fs-3" />
-              <span className="dropdown-toggle me-3"></span>
-              <strong>ASSIGNMENTS</strong>
+              ASSIGNMENTS
             </div>
             <div className="d-flex align-items-center">
-              <span className="badge bg-light text-dark me-2">40% of Total</span>
-              <FaPlus className="fs-4 me-2" />
-              <IoEllipsisVertical className="fs-4" />
+              <span className="badge bg-secondary text-dark me-2">
+                40% of Total
+              </span>
+              <FaPlus className="me-2" />
+              <FaEllipsisVertical />
             </div>
           </div>
           
           <ListGroup className="rounded-0">
-            <ListGroupItem className="wd-lesson p-3 ps-2">
-              <div className="d-flex justify-content-between align-items-start">
-                <div className="d-flex">
-                  <BsGripVertical className="me-2 fs-3 text-secondary" />
-                  <BiSolidPencil className="me-3 fs-5 text-success" />
-                  <div>
-                    <Link href="/Courses/1234/Assignments/123" className="text-dark text-decoration-none">
-                      <strong>A1</strong>
-                    </Link>
-                    <div className="small text-muted">
-                      <span className="text-danger">Multiple Modules</span> | Not available until May 6 at 12:00am |<br/>
-                      Due May 13 at 11:59pm | 100 pts
-                    </div>
+            {courseAssignments.map((assignment: any) => (
+              <ListGroupItem 
+                key={assignment._id}
+                className="wd-assignment-list-item d-flex align-items-center p-3 ps-1">
+                <BsGripVertical className="me-2 fs-3" />
+                <FaCheckCircle className="me-2 text-success" />
+                <div className="flex-fill">
+                  <Link
+                    className="wd-assignment-link text-decoration-none text-dark"
+                    href={`/Courses/${cid}/Assignments/${assignment._id}`}>
+                    <strong>{assignment.title}</strong>
+                  </Link>
+                  <div className="small text-muted">
+                    <span className="text-danger">Multiple Modules</span> | 
+                    <strong> Not available until</strong> {assignment.availableDate} | 
+                    <strong> Due</strong> {assignment.dueDate} | {assignment.points} pts
                   </div>
                 </div>
-                <div className="d-flex align-items-center">
-                  <FaCheckCircle className="text-success me-2 fs-5" />
-                  <IoEllipsisVertical className="fs-4" />
-                </div>
-              </div>
-            </ListGroupItem>
-
-            <ListGroupItem className="wd-lesson p-3 ps-2">
-              <div className="d-flex justify-content-between align-items-start">
-                <div className="d-flex">
-                  <BsGripVertical className="me-2 fs-3 text-secondary" />
-                  <BiSolidPencil className="me-3 fs-5 text-success" />
-                  <div>
-                    <Link href="/Courses/1234/Assignments/123" className="text-dark text-decoration-none">
-                      <strong>A2</strong>
-                    </Link>
-                    <div className="small text-muted">
-                      <span className="text-danger">Multiple Modules</span> | Not available until May 13 at 12:00am |<br/>
-                      Due May 20 at 11:59pm | 100 pts
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex align-items-center">
-                  <FaCheckCircle className="text-success me-2 fs-5" />
-                  <IoEllipsisVertical className="fs-4" />
-                </div>
-              </div>
-            </ListGroupItem>
-
-            <ListGroupItem className="wd-lesson p-3 ps-2">
-              <div className="d-flex justify-content-between align-items-start">
-                <div className="d-flex">
-                  <BsGripVertical className="me-2 fs-3 text-secondary" />
-                  <BiSolidPencil className="me-3 fs-5 text-success" />
-                  <div>
-                    <Link href="/Courses/1234/Assignments/123" className="text-dark text-decoration-none">
-                      <strong>A3</strong>
-                    </Link>
-                    <div className="small text-muted">
-                      <span className="text-danger">Multiple Modules</span> | Not available until May 20 at 12:00am |<br/>
-                      Due May 27 at 11:59pm | 100 pts
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex align-items-center">
-                  <FaCheckCircle className="text-success me-2 fs-5" />
-                  <IoEllipsisVertical className="fs-4" />
-                </div>
-              </div>
-            </ListGroupItem>
+                <FaEllipsisVertical />
+              </ListGroupItem>
+            ))}
           </ListGroup>
         </ListGroupItem>
       </ListGroup>
