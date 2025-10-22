@@ -1,11 +1,6 @@
 export default function VariablesAndConstant(){
-<<<<<<< HEAD
-    var functionScoped = 2;
-    let blockScoped = 5;
-=======
     let functionScoped = 2;
     const blockScoped = 5;
->>>>>>> 35421d4 (Fix: ignore ESLint during build)
     const constant1 = functionScoped - blockScoped;
     return(
         <div id = "wd-variables-and-constants">
