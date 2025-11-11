@@ -1,8 +1,23 @@
+"use client";
+import { useState } from "react";
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
+import ModuleEditor from "./ModuleEditor";
 
-export default function ModulesControls() {
+export default function ModulesControls({ 
+  moduleName, 
+  setModuleName, 
+  addModule 
+}: { 
+  moduleName: string; 
+  setModuleName: (title: string) => void; 
+  addModule: () => void; 
+}) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
   return (
     <div id="wd-modules-controls" className="text-nowrap d-flex justify-content-end mb-3">
       {/* Order: Collapse All, View Progress, Publish All, Module */}
@@ -15,7 +30,7 @@ export default function ModulesControls() {
         View Progress
       </Button>
       
-      <Dropdown className="me-2 d-inline-block" >
+      <Dropdown className="me-2 d-inline-block">
         <DropdownToggle variant="secondary" id="wd-publish-all-btn">
           <GreenCheckmark /> Publish All
         </DropdownToggle>
@@ -38,10 +53,19 @@ export default function ModulesControls() {
         </DropdownMenu>
       </Dropdown>
       
-      <Button variant="danger" id="wd-add-module-btn">
-        <FaPlus className="me-1" />
+      <Button variant="danger" onClick={handleShow} id="wd-add-module-btn">
+        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module
       </Button>
+      
+      <ModuleEditor 
+        show={show} 
+        handleClose={handleClose} 
+        dialogTitle="Add Module"
+        moduleName={moduleName} 
+        setModuleName={setModuleName} 
+        addModule={addModule} 
+      />
     </div>
   );
 }
