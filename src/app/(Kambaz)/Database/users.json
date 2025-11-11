@@ -102,5 +102,18 @@
     "section": "S102",
     "lastActivity": "2024-10-07",
     "totalActivity": "22:15:30"
+  },
+  {
+    "_id": "777",
+    "username": "ada",
+    "password": "123",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "email": "logan@xmen.com",
+    "role": "FACULTY",
+    "loginId": "001234568S",
+    "section": "S102",
+    "lastActivity": "2024-10-07",
+    "totalActivity": "22:15:30"
   }
 ]
