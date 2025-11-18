@@ -30,7 +30,7 @@ export default function QueryParameters() {
         </a>
         <a id="wd-query-parameter-divide"
             href={`${HTTP_SERVER}/lab5/calculator?operation=divide&a=${a}&b=${b}`}>
-            Substract {a} / {b}
+            Divide {a} / {b}
         </a>
     </div>
   );
