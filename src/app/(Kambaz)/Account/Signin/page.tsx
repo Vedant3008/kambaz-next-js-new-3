@@ -1,33 +1,33 @@
 "use client";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { User } from "../../Database"; 
-import * as db from "../../Database";
 import { FormControl, Button } from "react-bootstrap";
+import * as client from "../client";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});
   const dispatch = useDispatch();
+  const router = useRouter();
   
-  const signin = () => {
-    const user = db.users.find(
-      (u: any) =>
-        u.username === credentials.username &&
-        u.password === credentials.password
-    )as User | undefined;
-    if (!user) return;
-    dispatch(setCurrentUser(user));
-    redirect("/Dashboard");  
+  const signin = async () => {
+    try {
+      const user = await client.signin(credentials);
+      if (!user) return;
+      dispatch(setCurrentUser(user));
+      router.push("/Kambaz/Dashboard");  
+    } catch (error) {
+      console.error("Sign in failed:", error);
+    }
   };
   
   return (
-    <div id="wd-signin-screen">
+    <div id="wd-signin-screen" className="w-25">
       <h1>Sign in</h1>
       <FormControl 
-        defaultValue={credentials.username}
+        value={credentials.username || ""}
         onChange={(e) => setCredentials({
           ...credentials, username: e.target.value 
         })}
@@ -36,7 +36,7 @@ export default function Signin() {
         id="wd-username"  
       />
       <FormControl 
-        defaultValue={credentials.password}
+        value={credentials.password || ""}
         onChange={(e) => setCredentials({
           ...credentials, password: e.target.value 
         })}
@@ -45,10 +45,10 @@ export default function Signin() {
         type="password" 
         id="wd-password" 
       />
-      <Button onClick={signin} id="wd-signin-btn" className="w-100">
+      <Button onClick={signin} id="wd-signin-btn" className="w-100 mb-2">
         Sign in
       </Button>
-      <Link id="wd-signup-link" href="/Kambaz/Account/Signup">
+      <Link id="wd-signup-link" href="/Account/Signup">
         Sign up
       </Link>
     </div>
