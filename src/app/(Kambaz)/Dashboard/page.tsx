@@ -144,7 +144,7 @@ export default function Dashboard() {
               <Card className="h-100">
                 {courseImages[course._id] ? (
                   <Link 
-                    href={`/Kambaz/Courses/${course._id}/Home`}
+                    href={`/Courses/${course._id}/Home`}
                     className="text-decoration-none text-dark">
                     <CardImg 
                       src={courseImages[course._id]} 
@@ -157,7 +157,7 @@ export default function Dashboard() {
                   </Link>
                 ) : (
                   <Link 
-                    href={`/Kambaz/Courses/${course._id}/Home`}
+                    href={`/Courses/${course._id}/Home`}
                     className="text-decoration-none text-dark">
                     <div 
                       style={{ 
@@ -176,7 +176,7 @@ export default function Dashboard() {
                 )}
                 <CardBody>
                   <Link 
-                    href={`/Kambaz/Courses/${course._id}/Home`}
+                    href={`/Courses/${course._id}/Home`}
                     className="wd-dashboard-course-link text-decoration-none text-dark">
                     <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
                       {course.name}
@@ -189,7 +189,7 @@ export default function Dashboard() {
                   </Link>
                   
                   <div className="d-flex justify-content-between align-items-center">
-                    <Link href={`/Kambaz/Courses/${course._id}/Home`}>
+                    <Link href={`/Courses/${course._id}/Home`}>
                       <Button variant="primary">Go</Button>
                     </Link>
                     

@@ -25,7 +25,7 @@ export default function Signin() {
       }
       
       dispatch(setCurrentUser(user));
-      router.push("/Kambaz/Dashboard");  
+      router.push("/Dashboard");
     } catch (error: any) {
       console.error("Sign in failed:", error);
       setError(error.response?.data?.message || "Sign in failed");
