@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import ModulesControls from "./ModulesControls";
@@ -5,9 +6,25 @@ import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
 
 export default function Modules() {
+  const [moduleName, setModuleName] = useState("");
+  const addModule = () => {
+    console.log("Adding module:", moduleName);
+  };
+  
+  const deleteModule = (moduleId: string) => {
+    console.log("Deleting module:", moduleId);
+  };
+  
+  const editModule = (moduleId: string) => {
+    console.log("Editing module:", moduleId);
+  };
   return (
     <div>
-      <ModulesControls />
+      <ModulesControls 
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
       <br /><br /><br /><br />
       
       <ListGroup className="rounded-0" id="wd-modules">
@@ -15,7 +32,11 @@ export default function Modules() {
           <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
             Week 1
-            <ModuleControlButtons />
+            <ModuleControlButtons 
+              moduleId="week1"
+              deleteModule={deleteModule}
+              editModule={editModule}
+            />
           </div>
           <ListGroup className="wd-lessons rounded-0">
             <ListGroupItem className="wd-lesson p-3 ps-1">
@@ -40,7 +61,11 @@ export default function Modules() {
           <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
             Week 2
-            <ModuleControlButtons />
+            <ModuleControlButtons 
+              moduleId="week2"
+              deleteModule={deleteModule}
+              editModule={editModule}
+            />
           </div>
           <ListGroup className="wd-lessons rounded-0">
             <ListGroupItem className="wd-lesson p-3 ps-1">

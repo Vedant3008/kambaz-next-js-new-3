@@ -1,5 +1,9 @@
 "use client";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import * as client from "../../Assignments/client";
+import { setAssignments, deleteAssignment } from "./reducer";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { FaEllipsisVertical, FaPlus } from "react-icons/fa6";
@@ -8,9 +12,25 @@ import { BsGripVertical } from "react-icons/bs";
 import * as db from "../../../Database";
 
 export default function Assignments() {
-  const { cid } = useParams();
-  const assignments = db.assignments;
-  const courseAssignments = assignments.filter((assignment: any) => assignment.course === cid);
+    const params = useParams();
+  const cid = params.cid as string;
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    if (!cid) return;
+    const assignments = await client.findAssignmentsForCourse(cid);
+    dispatch(setAssignments(assignments));
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [cid]);
+
+  const removeAssignment = async (assignmentId: string) => {
+    await client.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
   
   return (
     <div id="wd-assignments">
@@ -44,7 +64,7 @@ export default function Assignments() {
           </div>
           
           <ListGroup className="rounded-0">
-            {courseAssignments.map((assignment: any) => (
+            {assignments.map((assignment: any) => (
               <ListGroupItem 
                 key={assignment._id}
                 className="wd-assignment-list-item d-flex align-items-center p-3 ps-1">

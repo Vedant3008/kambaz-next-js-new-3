@@ -1,16 +1,16 @@
 "use client";
+import { useEffect, useState } from "react";
+import * as client from "../Courses/client";
+import { setCourses } from "../Courses/reducer";
 import * as db from "../Database";
-import { useState } from "react";
 import Link from "next/link";
 import { Row, Col, Card, CardImg, CardBody, CardTitle, CardText, Button, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewCourse, deleteCourse, updateCourse } from "../Courses/reducer";
 import { RootState } from "../store";
 
 export default function Dashboard() {
   const { courses } = useSelector((state: RootState) => state.coursesReducer);
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
-  const { enrollments } = db;
   const dispatch = useDispatch();
   
   const [course, setCourse] = useState<any>({
@@ -48,13 +48,49 @@ export default function Dashboard() {
     return courseColors[Math.abs(hash) % courseColors.length];
   };
   
-  const filteredCourses = courses.filter((course: any) =>
-    enrollments.some(
-      (enrollment: any) =>
-        enrollment.user === currentUser?._id &&
-        enrollment.course === course._id
-    )
-  );
+  // Fetch courses from server
+  const fetchCourses = async () => {
+    try {
+      const courses = await client.findMyCourses();
+      dispatch(setCourses(courses));
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchCourses();
+  }, [currentUser]);
+  
+  // Add new course
+  const onAddNewCourse = async () => {
+    try {
+      const newCourse = await client.createCourse(course);
+      dispatch(setCourses([...courses, newCourse]));
+    } catch (error) {
+      console.error("Error creating course:", error);
+    }
+  };
+  
+  // Delete course
+  const onDeleteCourse = async (courseId: string) => {
+    try {
+      await client.deleteCourse(courseId);
+      dispatch(setCourses(courses.filter((c) => c._id !== courseId)));
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  };
+  
+  // Update course
+  const onUpdateCourse = async () => {
+    try {
+      await client.updateCourse(course);
+      dispatch(setCourses(courses.map((c) => c._id === course._id ? course : c)));
+    } catch (error) {
+      console.error("Error updating course:", error);
+    }
+  };
   
   return (
     <div id="wd-dashboard" className="p-4">
@@ -67,12 +103,12 @@ export default function Dashboard() {
             <button 
               className="btn btn-primary float-end"
               id="wd-add-new-course-click"
-              onClick={() => dispatch(addNewCourse(course))}>
+              onClick={onAddNewCourse}>
               Add
             </button>
             <button 
               className="btn btn-warning float-end me-2"
-              onClick={() => dispatch(updateCourse(course))}
+              onClick={onUpdateCourse}
               id="wd-update-course-click">
               Update
             </button>
@@ -97,13 +133,13 @@ export default function Dashboard() {
       )}
       
       <h2 id="wd-dashboard-published">
-        Published Courses ({filteredCourses.length})
+        Published Courses ({courses.length})
       </h2>
       <hr />
       
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {filteredCourses.map((course: any) => (
+          {courses.map((course: any) => (
             <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card className="h-100">
                 {courseImages[course._id] ? (
@@ -121,7 +157,7 @@ export default function Dashboard() {
                   </Link>
                 ) : (
                   <Link 
-                    href={`/Courses/${course._id}/Home`}
+                    href={`/Kambaz/Courses/${course._id}/Home`}
                     className="text-decoration-none text-dark">
                     <div 
                       style={{ 
@@ -140,7 +176,7 @@ export default function Dashboard() {
                 )}
                 <CardBody>
                   <Link 
-                    href={`/Courses/${course._id}/Home`}
+                    href={`/Kambaz/Courses/${course._id}/Home`}
                     className="wd-dashboard-course-link text-decoration-none text-dark">
                     <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
                       {course.name}
@@ -153,11 +189,11 @@ export default function Dashboard() {
                   </Link>
                   
                   <div className="d-flex justify-content-between align-items-center">
-                    <Link href={`/Courses/${course._id}/Home`}>
+                    <Link href={`/Kambaz/Courses/${course._id}/Home`}>
                       <Button variant="primary">Go</Button>
                     </Link>
                     
-                    {(currentUser as any)?.role === "FACULTY" && (
+                    {currentUser?.role === "FACULTY" && (
                       <div>
                         <button 
                           id="wd-edit-course-click"
@@ -172,7 +208,7 @@ export default function Dashboard() {
                         <button 
                           onClick={(event) => {
                             event.preventDefault();
-                            dispatch(deleteCourse(course._id));
+                            onDeleteCourse(course._id);
                           }} 
                           className="btn btn-danger"
                           id="wd-delete-course-click">

@@ -20,7 +20,6 @@ export default function ModulesControls({
   
   return (
     <div id="wd-modules-controls" className="text-nowrap d-flex justify-content-end mb-3">
-      {/* Order: Collapse All, View Progress, Publish All, Module */}
       
       <Button variant="secondary" className="me-2" id="wd-collapse-all">
         Collapse All
