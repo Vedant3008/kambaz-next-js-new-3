@@ -7,7 +7,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  dob?: string;  // Make this optional since it's not in your JSON data
+  dob?: string; 
   role: "ADMIN" | "FACULTY" | "STUDENT" | "USER";
   loginId: string;
   section: string;

@@ -16,7 +16,7 @@ export default function Signup() {
     try {
       const currentUser = await client.signup(user);
       dispatch(setCurrentUser(currentUser));
-      router.push("/Kambaz/Account/Profile");
+      router.push("/Account/Profile");
     } catch (error) {
       console.error("Sign up failed:", error);
     }
