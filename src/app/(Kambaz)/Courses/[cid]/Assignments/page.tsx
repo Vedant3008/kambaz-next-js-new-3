@@ -172,7 +172,7 @@ export default function Assignments() {
                 {/* Edit and Delete buttons for Faculty */}
                 {currentUser?.role === "FACULTY" && (
                   <div className="ms-2">
-                    <Link href={`/Courses/${cid}/Assignments/${assignment._id}/edit`}>
+                    <Link href={`/Courses/${cid}/Assignments/${assignment._id}`}>
                       <button className="btn btn-sm btn-warning me-1">
                         <FaPencil />
                       </button>
