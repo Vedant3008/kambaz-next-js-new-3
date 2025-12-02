@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 
-const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER;
+const HTTP_SERVER = process.env.NEXT_PUBLIC_REMOTE_SERVER;
 
 export default function PeopleTable() {
   const { cid } = useParams();
